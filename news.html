@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Clean Server (纯净生存) - 公告</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* 1. 定义本地字体 */
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('minecraft.ttf') format('truetype');
+        }
+
+        body {
+            margin: 0;
+            background-color: #1a1a1a;
+            /* 泥土背景纹理 */
+            background-image: 
+                linear-gradient(45deg, #2a2a2a 25%, transparent 25%, transparent 75%, #2a2a2a 75%, #2a2a2a),
+                linear-gradient(45deg, #2a2a2a 25%, transparent 25%, transparent 75%, #2a2a2a 75%, #2a2a2a);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            font-family: 'Minecraft', 'SimSun', monospace;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.75);
+            border: 2px solid #8b8b8b;
+            padding: 20px;
+            box-shadow: 0 0 15px #000;
+        }
+
+        h1 { text-align: center; color: #fff; text-shadow: 2px 2px #333; margin-top: 0; font-size: 3rem; font-weight: normal; }
+
+        .news-item {
+            border: 2px solid #555;
+            background: rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: 0.2s;
+        }
+        
+        .news-item:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px dashed #555;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .news-title { color: #55ff55; font-size: 1.5rem; text-shadow: 1px 1px #000; }
+        .news-date { color: #aaa; font-size: 1rem; }
+        .news-content { color: #ddd; line-height: 1.6; white-space: pre-wrap; font-size: 1.2rem; }
+
+        .back-btn {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 40px;
+            background-color: #7d7d7d;
+            border: 2px solid #000;
+            box-shadow: inset 2px 2px 0px #a0a0a0, inset -2px -2px 0px #555;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px #222;
+        }
+        .back-btn:hover { background-color: #7e87b6; color: #ffffa0; box-shadow: inset 2px 2px 0px #aab2ff, inset -2px -2px 0px #484e75; }
+    </style>
+</head>
+<body>
+
+    <h1>服务器公告</h1>
+    
+    <div class="container" id="news-container"></div>
+
+    <a href="index.html" class="back-btn">返回主菜单</a>
+
+    <script>
+        // ================= 编辑公告区 =================
+        const announcements = [
+            {
+                title: "投票通知",
+                date: "2026-06-13",
+                content: "QQ群内投票决定服务器难度(简单/普通/困难)(持续一年，即2027/6/13重新投票)"
+            },
+            {
+                title: "服务器更新",
+                date: "2026-06-13",
+                content: "1. 服务器使用了新的登陆插件，解决盗号问题\n2. 服务器更新主城\n3. 优化玩家数据显示"
+            },
+            {
+                title: "服务器更新",
+                date: "2026-02-20",
+                content: "添加派系插件(仅作为服务器促进玩家组队方式 不影响无规则核心)"
+            },
+            {
+                title: "投票结果通知",
+                date: "2026-02-08",
+                content: "经过服务器玩家qq群投票，服务器决定添加反作弊(持续一年，即2027/2/8重新投票)"
+            },
+            {
+                title: "服务器更新",
+                date: "2026-02-02",
+                content: "1. 服务器支持1.21.11\n2. 服务器内存优化，解决崩溃问题\n3. 更换核心: Paper + BungeeCord解决卡顿\n4. 优化数据 更新插件\n\n祝你玩得开心！"
+            },
+        ];
+        // ============================================
+
+        const container = document.getElementById('news-container');
+        announcements.forEach(news => {
+            const div = document.createElement('div');
+            div.className = 'news-item';
+            div.innerHTML = `
+                <div class="news-header">
+                    <span class="news-title">${news.title}</span>
+                    <span class="news-date">${news.date}</span>
+                </div>
+                <div class="news-content">${news.content}</div>
+            `;
+            container.appendChild(div);
+        });
+    </script>
+</body>
+</html>

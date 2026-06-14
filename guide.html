@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Clean Server (纯净生存) - 玩家指南</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* 1. 定义本地字体 */
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('minecraft.ttf') format('truetype');
+        }
+
+        body {
+            margin: 0;
+            background-color: #1a1a1a;
+            /* 暗色网格背景 */
+            background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            font-family: 'Minecraft', 'SimSun', monospace;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .book-container {
+            width: 80%;
+            max-width: 700px;
+            background: #e3d2b4; /* 书页纸张颜色 */
+            color: #4b3621; /* 深褐色文字 */
+            padding: 40px 50px;
+            box-shadow: 0 0 20px #000;
+            border: 5px solid #8d6e63; /* 书皮边框 */
+            min-height: 600px;
+            position: relative;
+        }
+
+        h1 { text-align: center; border-bottom: 2px solid #8d6e63; padding-bottom: 10px; font-weight: normal; font-size: 2.5rem; }
+        h2 { margin-top: 30px; color: #3e2723; font-size: 1.8rem; font-weight: normal; }
+        
+        p, li { 
+            line-height: 1.6; 
+            font-size: 1.3rem; 
+        }
+
+        ul { padding-left: 20px; }
+        
+        code {
+            background: #d7ccc8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: inherit;
+            color: #d32f2f;
+        }
+
+        .highlight { color: #d32f2f; font-weight: bold; }
+
+        .back-btn {
+            display: block;
+            width: 150px;
+            margin: 40px auto 0;
+            padding: 10px;
+            background: #7d7d7d;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: 2px solid #000;
+            box-shadow: inset 2px 2px 0px #a0a0a0, inset -2px -2px 0px #555;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .back-btn:hover { background: #7e87b6; color: #ffffa0; box-shadow: inset 2px 2px 0px #aab2ff, inset -2px -2px 0px #484e75; }
+
+    </style>
+</head>
+<body>
+
+    <div class="book-container">
+        <h1>Clean Server 指南</h1>
+	
+	<h2>规则说明</h2>
+        <p>本服务器为 <strong>无规则服务器 (Anarchy)</strong>。</p>
+        <ul>
+            <li>允许自由 PVP / 抄家</li>
+            <li>允许建立任意红石机器</li>
+            <li>没有领地保护，请隐藏好你的基地！</li>
+        </ul>
+
+        <h2>关于登录插件</h2>
+        <ul>
+            <li><code>/login 密码 或 /l 密码</code> - 登录</li>
+            <li><code>/register 密码 重复密码 或 /reg 密码 重复密码</code> - 注册</li>
+            <li><code>/changepassword 旧密码 新密码 重复新密码 或 /changepw 旧密码 新密码 重复新密码</code> - 更改密码</li>
+        </ul>
+
+<h2>关于皮肤插件</h2>
+        <ul>
+            <li>正版账户插件可直接从mojang下载皮肤并正常显示</li>
+            <li>离线账户不能显示客户端本地设置的皮肤</li>
+            <li>所有玩家均可使用<code>/skins</code>打开皮肤菜单 选择/更换皮肤 查看历史皮肤</li>
+            <li>提供多种热门皮肤可供选择!</li>
+        </ul>
+
+        <h2> 常用指令(tpa指令)</h2>
+        <ul>
+            <li><code>/tpa &lt;玩家名&gt;</code> - 请求传送</li>
+            <li><code>/tpahere &lt;玩家名&gt;</code> - 请求传送到自己的位置</li>
+        </ul>
+
+<h2>关于派系(工会)插件</h2>
+        <ul>
+            <li>在游戏内使用<code>/team ?</code>查看指南</li>
+            <li>任何玩家有权利加入/建立/退出队伍</li>
+            <li>所有玩家可使用<code>/team gui</code>GUI菜单</li>
+            <li>该插件只作为促进玩家合作的功能补充 不影响服务器无规则内核</li>
+            <li>补充指南:</li>
+            <li><code>/team sethome或setwarp</code>设置家/传送点</li>
+            <li><code>/teamchat 或 /tchat 或 /tc</code>对内聊天</li>
+
+        </ul>
+
+        <h2> 常用指令(tpa指令)</h2>
+        <ul>
+            <li><code>/tpa &lt;玩家名&gt;</code> - 请求传送</li>
+            <li><code>/tpahere &lt;玩家名&gt;</code> - 请求传送到自己的位置</li>
+        </ul>
+
+        <h2>联系方式</h2>
+        <p>QQ 群：971113367</p>
+
+        <a href="index.html" class="back-btn">完成阅读</a>
+    </div>
+
+</body>
+</html>

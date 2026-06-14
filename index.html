@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Clean Server - 一个纯净、无规则的 Minecraft 服务器 (1.8-1.21)。服务器地址: 3618.org，支持生存、PVP、建筑。">
+    <meta name="keywords" content="我的世界服务器, Minecraft Server, 无规则服务器, Clean Server, 3618.org, 纯净生存, Anarchy Server">
+    <meta name="author" content="Clean Server Admin">
+    <title>Clean Server (纯净生存) - 首页</title>
+    <link rel="icon" type="image/png" href="./picture/favicon.png">
+    <style>
+        /* 1. 定义本地字体 */
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('minecraft.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            /* 优先使用 Minecraft 字体，中文回退到宋体以保持像素感 */
+            font-family: 'Minecraft', 'SimSun', monospace;
+            color: white;
+            user-select: none;
+        }
+
+        /* 2. 背景容器：指定相对地址图片，并开启全屏铺满 */
+        #canvas-container { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 0; 
+            background-image: url('./picture/background/background.png'); /* 这里指定你的相对路径背景图 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; pointer-events: none; }
+
+        .ui-container {
+            position: absolute;
+            z-index: 2;
+            top: 45%; /* 稍微往上提一点，给底部留出空间 */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 550px; /* 稍微加宽以适应大按钮 */
+        }
+
+        h1 {
+            font-size: 5rem; /* 标题也稍微加大 */
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            text-shadow: 4px 4px 0px #3f3f3f;
+            font-weight: normal;
+            line-height: 1;
+        }
+
+        .subtitle { font-size: 1.5rem; color: #ffff55; margin-bottom: 20px; text-shadow: 2px 2px 0px #3f3f3f; }
+        
+        .server-info {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #8b8b8b;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+            box-shadow: inset 0 0 10px #000;
+        }
+
+        .info-item {
+            font-size: 1.2rem;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+            border-bottom: 1px dashed #444;
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-item span:last-child { color: #fff; text-shadow: 1px 1px #000; }
+
+        /* --- 纯 CSS 复刻 MC 按钮 (加大版) --- */
+        .mc-btn {
+            display: block;
+            width: 100%;
+            height: 48px;       /* 增加高度 */
+            line-height: 44px;  /* 垂直居中 */
+            margin-bottom: 12px;
+            
+            /* 背景和边框 */
+            background-color: #7d7d7d;
+            border: 2px solid #000; /* 外黑框 */
+            box-shadow: inset 2px 2px 0px #a0a0a0, inset -2px -2px 0px #555; /* 内高光/阴影 */
+            
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            font-size: 24px;    /* 字体加大 */
+            text-shadow: 2px 2px #222;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .mc-btn:hover {
+            background-color: #7e87b6; /* 悬停时的蓝紫色 */
+            box-shadow: inset 2px 2px 0px #aab2ff, inset -2px -2px 0px #484e75;
+            color: #ffffa0; /* 悬停文字变黄 */
+        }
+        
+        .mc-btn:active {
+            background-color: #555;
+            box-shadow: inset 2px 2px 0px #333, inset -2px -2px 0px #777;
+        }
+
+        #toast-msg {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8); color: #55ff55; padding: 15px 30px;
+            border: 2px solid #fff; display: none; z-index: 999; font-size: 1.5rem;
+            text-shadow: 1px 1px #000;
+        }
+
+        /* --- 底部信息栏样式 --- */
+        .site-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            border-top: 2px solid #555;
+            padding: 15px 0;
+            z-index: 2;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .footer-item span {
+            color: #aaa;
+            margin-right: 5px;
+        }
+        .footer-item a {
+            color: #ffff55;
+            text-decoration: none;
+            border-bottom: 1px dashed #ffff55;
+            padding-bottom: 2px;
+        }
+        .footer-item a:hover {
+            color: #fff;
+            border-bottom: 1px solid #fff;
+            text-shadow: 0 0 5px #ffff55;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div class="overlay"></div>
+    <div id="toast-msg">IP 已复制: 3618.org</div>
+
+    <div class="ui-container">
+        <h1>Clean Server</h1>
+        <div class="subtitle">无规则 • 纯净 • 自由</div>
+        <div id="player-count" style="color:#55ff55; margin-bottom:15px; font-size:1.2rem; text-shadow:1px 1px #000;">正在获取服务器状态...</div>
+
+        <div class="server-info">
+            <div class="info-item"><span>IP:</span><span>3618.org</span></div>
+            <div class="info-item"><span>版本:</span><span>1.8 - 1.21.11</span></div>
+            <div class="info-item"><span>核心:</span><span>Paper + BungeeCord</span></div>
+        </div>
+
+        <div class="mc-btn" onclick="copyIP()">复制服务器地址</div>
+        <a href="news.html" class="mc-btn">📜 服务器公告</a>
+        <a href="guide.html" class="mc-btn">📚 服务器指南</a>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-item">
+                <span>官方交流:</span>
+                <a href="https://qm.qq.com/q/9WYl09lCc8" target="_blank">加入 QQ 群</a>
+            </div>
+            <div class="footer-item">
+                <span>友情链接:</span>
+                <a href="https://luguanmc.top" target="_blank">LuguanMC</a> 
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // --- 功能逻辑 ---
+        // 1. 获取在线人数
+        const serverIp = "3618.org";
+        fetch(`https://api.minetools.eu/ping/${serverIp}`)
+            .then(response => response.json())
+            .then(data => {
+                const el = document.getElementById('player-count');
+                if (!data.error) {
+                    el.innerHTML = `🟢 在线: ${data.players.online} / ${data.players.max}`;
+                } else {
+                    el.innerHTML = `🔴 服务器离线`;
+                    el.style.color = '#ff5555';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('player-count').innerHTML = `⚪ 状态未知 (API错误)`;
+            });
+
+        // 2. 复制功能
+        function copyIP() {
+            navigator.clipboard.writeText("3618.org").then(() => {
+                const t = document.getElementById('toast-msg');
+                t.style.display = 'block';
+                setTimeout(() => t.style.display = 'none', 2000);
+            }).catch(() => alert("请手动复制: 3618.org"));
+        }
+
+        // 3. 3D 背景 (使用本地相对路径图片贴图)
+        const scene = new THREE.Scene(); 
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({antialias:false, alpha:true}); // alpha:true 开启透明度
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // 创建纹理加载器
+        const textureLoader = new THREE.TextureLoader();
+
+        // 封装一个加载相对路径图片并保持像素风的函数
+        function loadMcTexture(path) {
+            const texture = textureLoader.load(path);
+            // 关键：关闭平滑插值，保留颗粒感十足的像素原貌
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
+            return new THREE.MeshBasicMaterial({ map: texture });
+        }
+
+        // --- 定义 3 种材质包 (数组顺序: 右, 左, 上, 下, 前, 后) ---
+
+        // 1. 草方块材质包 (指定你的相对路径图片)
+        const materialsGrass = [
+            loadMcTexture('./picture/chartlet/grass_block/grass_block_side.png'), // 右
+            loadMcTexture('./picture/chartlet/grass_block/grass_block_side.png'), // 左
+            loadMcTexture('./picture/chartlet/grass_block/grass_block_top.png'),  // 上
+            loadMcTexture('./picture/chartlet/grass_block/dirt.png'), // 下
+            loadMcTexture('./picture/chartlet/grass_block/grass_block_side.png'), // 前
+            loadMcTexture('./picture/chartlet/grass_block/grass_block_side.png')  // 后
+        ];
+
+        // 2. 石头方块材质包
+        const materialsStone = [
+            loadMcTexture('./picture/chartlet/stone/stone.png'),
+            loadMcTexture('./picture/chartlet/stone/stone.png'),
+            loadMcTexture('./picture/chartlet/stone/stone.png'),
+            loadMcTexture('./picture/chartlet/stone/stone.png'),
+            loadMcTexture('./picture/chartlet/stone/stone.png'),
+            loadMcTexture('./picture/chartlet/stone/stone.png')
+        ];
+
+        // 3. 原木方块材质包
+        const materialsWood = [
+            loadMcTexture('./picture/chartlet/oak_log/oak_log.png'), // 右
+            loadMcTexture('./picture/chartlet/oak_log/oak_log.png'), // 左
+            loadMcTexture('./picture/chartlet/oak_log/oak_log_top.png'),  // 上 (年轮)
+            loadMcTexture('./picture/chartlet/oak_log/oak_log_top.png'),  // 下 (年轮)
+            loadMcTexture('./picture/chartlet/oak_log/oak_log.png'), // 前
+            loadMcTexture('./picture/chartlet/oak_log/oak_log.png')  // 后
+        ];
+
+        const geo = new THREE.BoxGeometry(1, 1, 1);
+        const cubes = [];
+
+        // 循环生成 120 个随机材质的方块
+        for(let i=0; i<120; i++){
+            // 随机决定当前方块使用哪一组材质
+            let chosenMaterial;
+            const rand = Math.random();
+            if (rand < 0.34) {
+                chosenMaterial = materialsGrass; // 草方块
+            } else if (rand < 0.67) {
+                chosenMaterial = materialsStone; // 石头
+            } else {
+                chosenMaterial = materialsWood;  // 原木
+            }
+
+            const c = new THREE.Mesh(geo, chosenMaterial);
+            c.position.set((Math.random()-.5)*60, (Math.random()-.5)*60, (Math.random()-.5)*30);
+            c.rotation.set(Math.random()*3, Math.random()*3, Math.random()*3);
+            const s = Math.random()*1.5+0.5; c.scale.set(s,s,s);
+            scene.add(c); cubes.push(c);
+        }
+        camera.position.z = 12;
+
+        let mx=0, my=0;
+        document.addEventListener('mousemove', e=>{mx=(e.clientX-window.innerWidth/2)/200; my=(e.clientY-window.innerHeight/2)/200;});
+
+        function animate(){
+            requestAnimationFrame(animate);
+            camera.position.x += (mx-camera.position.x)*0.05; camera.position.y += (-my-camera.position.y)*0.05;
+            camera.lookAt(scene.position);
+            cubes.forEach(c=>{c.rotation.x+=0.003; c.rotation.y+=0.003;});
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.onresize=()=>{camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth,window.innerHeight);}
+    </script>
+</body>
+</html>
