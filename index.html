@@ -11,9 +11,11 @@
         /* 1. 定义本地字体 */
         @font-face {
             font-family: 'Minecraft';
+            /* 确保这里的名字和本地放置的文件名完全一致 */
             src: url('minecraft.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+            font-display: swap; /* 优化加载体验，防止字体未加载出时文字隐形 */
         }
 
         body {
@@ -24,6 +26,11 @@
             font-family: 'Minecraft', 'SimSun', monospace;
             color: white;
             user-select: none;
+            
+            /* 抗锯齿优化，让像素字体更清晰，防止高分屏下发虚 */
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            image-rendering: pixelated;
         }
 
         /* 2. 背景容器：指定相对地址图片，并开启全屏铺满 */
@@ -280,7 +287,7 @@
         const geo = new THREE.BoxGeometry(1, 1, 1);
         const cubes = [];
 
-        // 循环生成 120 个随机材质的方块
+        // 循环生成 120 个随机材质死方块
         for(let i=0; i<120; i++){
             // 随机决定当前方块使用哪一组材质
             let chosenMaterial;
